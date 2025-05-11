@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MotoMarketApi.Data;
+using MotoMarketApi.Mappings;
+using MotoMarketApi.Services;
+using MotoMarketApi.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<MotoMarketDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMotorcycleAdService, MotorcycleAdService>();
+builder.Services.AddScoped<IFavoriteAdService, FavoriteAdService>();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 
 
 var app = builder.Build();
